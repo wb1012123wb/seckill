@@ -1,0 +1,64 @@
+基于SpringMVC + Spring + MyBatis实现高并发秒杀API：
+1、SpringMVC + Spring + MyBastis使用与整合
+2、秒杀类系统需求理解和实现
+3、常用技术解决高并发问题
+
+为什么使用SSM框架？
+    框架易于使用和轻量级
+    低代码侵入性
+    成熟的社区和用户群
+
+为什么使用秒杀系统来讲？
+    秒杀业务具有典型的“事务”特性
+    秒杀/红包需求越来越常见
+    面试常见问题
+
+能从课程中学到什么？
+    初学者：框架的使用与整合技巧
+    有经验者：秒杀的分析过程以及优化思路
+
+相关技术介绍：
+    MySQL：
+        表设计
+        SQL技巧
+        事务和行级锁
+    MyBatis：
+        DAO层设计与开发
+        MyBatis合理使用
+        MyBatis与Spring整合
+    Spring：
+        Spring IOC整合Service：基于xml、基于注解、基于
+        声明式事务运用
+    SpringMVC：
+        Restful接口设计和使用
+        框架运作流程
+        Controller开发技巧
+    前端：
+        交互设计
+        BootStrap
+        jQuery
+    高并发：
+        高并发点和高并发分析
+        优化思路并实现
+
+创建项目
+    创建之前的说明：
+        从零开始创建
+        从官网获取相关配置：官方文档更全面和权威，避免从搜索引擎里获取过时或错误的文档
+            logback：http://logback.qos.ch/manual/configuration.html
+            spring配置：http://docs.spring.io/spring/docs
+            mybatis配置：http://mybatis.github.io/mybatis-3/zh/index.html
+        使用Maven创建项目
+            mvn archetype:create -DgroupId=org.seckill -DartifactId=seckill -DarchetypeArtifactId=maven-archetype-webapp
+
+    引入maven依赖：pom.xml
+
+    SQL写在哪儿：
+        XML提供SQL（推荐）
+        注解提供SQL（java 5.0，仍然需要重新编译类）
+    如何实现DAO接口？
+        Mapper自动实现DAO接口（推荐）
+        API编程方式实现DAO接口
+
+    配置MyBatis：mybatis-config.xml
+    MyBatis整合Spring：spring-dao.xml
