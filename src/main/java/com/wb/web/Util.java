@@ -1,4 +1,4 @@
-package com.wb.wb;
+package com.wb.web;
 
 public class Util {
     /*public static String strReverse(String str) {

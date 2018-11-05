@@ -6,7 +6,8 @@
         http://www.springframework.org/schema/beans/spring-beans.xsd http://www.springframework.org/schema/cache http://www.springframework.org/schema/cache/spring-cache.xsd http://www.springframework.org/schema/mvc http://www.springframework.org/schema/mvc/spring-mvc.xsd http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd">
     <!-- 配置SpringMVC -->
     <!-- 1：开启SpringMVC注解模式
-        (1) 自动注册DefaultAnnotationHandlerMapping, AnnotationMethodHandlerAdapter
+        简化配置：
+        (1) 自动注册DefaultAnnotationHandlerMapping, AnnotationMethodHandlerAdapter组件
         (2) 提供一系列功能：数据绑定、数字和日期的format @NumberFormat @DateTImeFormat
             xml. json默认读写文件
      -->

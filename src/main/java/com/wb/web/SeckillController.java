@@ -7,7 +7,6 @@ import com.wb.entity.Seckill;
 import com.wb.enums.SeckillStateEnum;
 import com.wb.exception.RepeatKillException;
 import com.wb.exception.SeckillClosedException;
-import com.wb.exception.SeckillException;
 import com.wb.service.SeckillService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -28,6 +27,11 @@ public class SeckillController {
     @Autowired
     private SeckillService seckillService;
 
+    /**
+     * 秒杀商品列表
+     * @param model
+     * @return
+     */
     @RequestMapping(value = "/list", method = RequestMethod.GET)
     public String list(Model model) {
         //获取列表页
@@ -37,6 +41,12 @@ public class SeckillController {
         return "list";  //WEB-INF/jsp/"list".jsp
     }
 
+    /**
+     * 秒杀商品详情
+     * @param seckillId
+     * @param model
+     * @return
+     */
     @RequestMapping(value = "/{seckillId}/detail", method = RequestMethod.GET)
     public String detail(@PathVariable("seckillId") Long seckillId, Model model) {
         if (seckillId == null) {
@@ -53,7 +63,7 @@ public class SeckillController {
     // ajax json
     @RequestMapping(value = "/{seckillId}/exposer",
             method = RequestMethod.POST,
-            produces = {"application/json;charset=UTF-8"})
+            produces = {"application/json;charset=UTF-8"})//contentType
     @ResponseBody
     public SeckillResult<Exposer> exposer(Long seckillId) {
         SeckillResult<Exposer> result;
@@ -72,7 +82,7 @@ public class SeckillController {
             produces = {"application/json;charset=UTF-8"})
     public SeckillResult<SeckillExecution> execute(@PathVariable("seckillId") Long seckillId,
                                                    @PathVariable("md5") String md5,
-                                                   @CookieValue(value = "killPhone", required = false) Long phone) {
+                                                   @CookieValue(value = "killPhone", required = false) Long phone) {//CookieValue 不做强制
         // SpringMVC valid
         if (phone == null) {
             return new SeckillResult<SeckillExecution>(false, "未注册");
@@ -83,14 +93,14 @@ public class SeckillController {
             return new SeckillResult<SeckillExecution>(true, execution);
         } catch (RepeatKillException e) {
             SeckillExecution execution = new SeckillExecution(seckillId, SeckillStateEnum.REPEAT_KILL);
-            return new SeckillResult<SeckillExecution>(false, execution);
+            return new SeckillResult<SeckillExecution>(true, execution);
         } catch (SeckillClosedException e) {
             SeckillExecution execution = new SeckillExecution(seckillId, SeckillStateEnum.END);
-            return new SeckillResult<SeckillExecution>(false, execution);
+            return new SeckillResult<SeckillExecution>(true, execution);
         } catch (Exception e){
             logger.error(e.getMessage(), e);
             SeckillExecution execution = new SeckillExecution(seckillId, SeckillStateEnum.INNER_ERROR);
-            return new SeckillResult<SeckillExecution>(false, execution);
+            return new SeckillResult<SeckillExecution>(true, execution);
         }
     }
 

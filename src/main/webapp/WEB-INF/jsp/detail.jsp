@@ -66,7 +66,7 @@
 <script src="/resource/script/seckill.js" type="text/javascript"></script><!-- 小坑：不要用/的方式结束标签，再往下的js浏览器不会加载 -->
 <script type="text/javascript">
     $(function () {
-        // 使用EL表达式传入参数
+        // 小技巧：使用EL表达式传入参数
        seckill.detail.init({
            seckillId: ${seckill.seckillId},
            startTime: ${seckill.startTime.time},//毫秒
