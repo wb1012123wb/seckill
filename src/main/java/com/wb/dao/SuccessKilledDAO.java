@@ -10,7 +10,7 @@ public interface SuccessKilledDAO {
      * 插入购买明细，可根据联合主键过滤重复
      * @param seckilled
      * @param userPhone
-     * @return 插入的行数
+     * @return
      */
     int insertSuccessKilled(@Param("seckilled") long seckilled, @Param("userPhone") long userPhone);
 

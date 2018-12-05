@@ -10,7 +10,7 @@
     <!-- 1：配置数据库相关参数properties的属性：${url} -->
     <context:property-placeholder location="classpath:jdbc.properties"/>
 
-    <!-- 2：数据库连接池 -->
+    <!-- 2：数据库连接池c3p0 -->
     <bean id="dataSource" class="com.mchange.v2.c3p0.ComboPooledDataSource">
         <!-- 配置连接池基本属性 -->
         <property name="driverClass" value="${jdbc.driver}"/>
@@ -30,6 +30,7 @@
     </bean>
 
     <!-- 约定大于配置 -->
+    <!-- 真正的整合过程 -->
     <!-- 3：配置SqlSessionFactory对象 -->
     <bean id="sqlSessionFactory" class="org.mybatis.spring.SqlSessionFactoryBean">
         <!-- 注入数据库连接池 -->
@@ -45,6 +46,7 @@
     <!-- 4：配置扫描DAO接口包，动态实现DAO接口，注入到spring容器中 -->
     <bean class="org.mybatis.spring.mapper.MapperScannerConfigurer">
         <!-- 注入SqlSessionFactory -->
+        <!-- sqlSessionFactoryBeanName：使用时查找，防止提前初始化sqlSessionFactory -->
         <property name="sqlSessionFactoryBeanName" value="sqlSessionFactory"/>
         <!-- 给出扫描DAO接口包 -->
         <property name="basePackage" value="com.wb.dao"/>
