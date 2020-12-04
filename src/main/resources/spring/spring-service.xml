@@ -2,24 +2,59 @@
 <beans xmlns="http://www.springframework.org/schema/beans"
        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
        xmlns:context="http://www.springframework.org/schema/context" xmlns:tx="http://www.springframework.org/schema/tx"
+       xmlns:aop="http://www.springframework.org/schema/aop"
        xsi:schemaLocation="http://www.springframework.org/schema/beans
         http://www.springframework.org/schema/beans/spring-beans.xsd
         http://www.springframework.org/schema/context
         http://www.springframework.org/schema/context/spring-context.xsd
         http://www.springframework.org/schema/tx
-        http://www.springframework.org/schema/tx/spring-tx.xsd">
+        http://www.springframework.org/schema/tx/spring-tx.xsd http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop.xsd">
+
     <!-- 扫描service包下所有使用注解的类型 -->
     <context:component-scan base-package="com.wb.service"/>
 
-    <!-- 配置事务管理器 -->
+    <!-- 配置事务管理器 start -->
     <bean id="transactionManager" class="org.springframework.jdbc.datasource.DataSourceTransactionManager">
         <!-- 注入数据库连接池（根据datasource使用事务） -->
         <property name="dataSource" ref="dataSource"/><!-- 在spring-dao.xml文件中定义过了，需要整体运行spring的时候，把xml给spring就可以正常运行 -->
     </bean>
-
-    <!-- 配置基于注解的声明式事务
-            默认使用注解来管理事务行为
-         -->
+    <!-- 配置事务-方法1：基于注解的声明式事务 @Transactional -->
     <tx:annotation-driven transaction-manager="transactionManager"/>
+
+    <!-- todo 两种事务配置方案只能二选一 -->
+
+    <!-- 配置事务-方法2：基于AOP实现事务 -->
+    <!--<tx:advice id="txAdvice" transaction-manager="transactionManager">-->
+        <!--&lt;!&ndash; 用于配置详细的事务语义 &ndash;&gt;-->
+        <!--<tx:attributes>-->
+            <!--&lt;!&ndash; 所有以'save','del','update','add'开头的方法是 write 的 &ndash;&gt;-->
+            <!--<tx:method name="save*" propagation="REQUIRED" rollback-for="Exception"/>-->
+            <!--<tx:method name="del*" propagation="REQUIRED" rollback-for="Exception"/>-->
+            <!--<tx:method name="update*" propagation="REQUIRED" rollback-for="Exception"/>-->
+            <!--<tx:method name="add*" propagation="REQUIRED" rollback-for="Exception"/>-->
+            <!--&lt;!&ndash; 所有以'get','find','search','query'开头的方法是 read-only 的 &ndash;&gt;-->
+            <!--<tx:method name="find*" read-only="true"/>-->
+            <!--<tx:method name="get*" read-only="true"/>-->
+            <!--<tx:method name="search*" read-only="true"/>-->
+            <!--<tx:method name="query*" read-only="true"/>-->
+            <!--&lt;!&ndash; 其他方法使用默认的事务设置 &ndash;&gt;-->
+            <!--&lt;!&ndash; <tx:method name="*"/> &ndash;&gt;-->
+            <!--&lt;!&ndash; <tx:method name="*" propagation="REQUIRED" read-only="true"/> &ndash;&gt;-->
+        <!--</tx:attributes>-->
+    <!--</tx:advice>-->
+    <!--&lt;!&ndash; 事务AOP配置 &ndash;&gt;-->
+    <!--<aop:config>-->
+        <!--<aop:pointcut id="serviceMethod" expression="execution(* com.wb..*.service..*.*(..))" />-->
+        <!--&lt;!&ndash; 指定在 serviceMethod 切入点应用 txAdvice 事务切面 &ndash;&gt;-->
+        <!--<aop:advisor pointcut-ref="serviceMethod" advice-ref="txAdvice"  order="2"/>-->
+    <!--</aop:config>-->
+
+    <!-- 配置事务管理器 end -->
+
+
+    <!-- AOP -->
+    <!-- aspectj 支持自动代理实现AOP功能 -->
+    <!-- true：使用CGLib 动态代理，false：JDK静态代理 -->
+    <aop:aspectj-autoproxy proxy-target-class="true"/>
 
 </beans>
