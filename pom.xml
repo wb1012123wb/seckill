@@ -17,7 +17,7 @@
             <!-- 使用Junit4 -->
             <groupId>junit</groupId>
             <artifactId>junit</artifactId>
-            <version>4.11</version><!-- 3.8.1 改为 4.11 版本，3.0 的Junit默认使用编程的方式，4.0使用注解的方式运行Junit -->
+            <version>4.13.1</version><!-- 3.8.1 改为 4.13.1 版本，3.0 的Junit默认使用编程的方式，4.0使用注解的方式运行Junit -->
             <scope>test</scope>
         </dependency>
         <!-- 补全项目依赖 -->
