@@ -11,10 +11,10 @@ package com.wb.annotation.testRepeatable;
 @Game(value = "Dirt4")
 public class PlayGame {
 
-    @Game(value = "LOL")
-    @Game(value = "PUBG")
-    @Game(value = "NFS")
-    @Game(value = "Dirt4")
+    @Game(value = "lol")
+    @Game(value = "pubg")
+    @Game(value = "nfs")
+    @Game(value = "dirt4")
     public void play() {
 
     }

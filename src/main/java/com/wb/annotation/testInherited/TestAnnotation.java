@@ -45,7 +45,7 @@ public class TestAnnotation {
             }
 
             /**
-             * 获取标注在PlayGame上的注解属性
+             * 获取标注在PlayGame上的注解属性。PlayGame.play()被@Game标注，@Game被@Repeatable标注
              */
             Class<PlayGame> playGame = PlayGame.class;
             boolean gameAnnotationPresent = playGame.isAnnotationPresent(People.class);
