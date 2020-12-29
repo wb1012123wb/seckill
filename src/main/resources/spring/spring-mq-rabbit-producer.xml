@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:rabbit="http://www.springframework.org/schema/rabbit"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd http://www.springframework.org/schema/rabbit http://www.springframework.org/schema/rabbit/spring-rabbit.xsd http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd">
+
+    <!-- 1. 引入属性文件 -->
+    <!--<bean id="propertyConfigurer" class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">-->
+    <!--<property name="location" value="classpath:properties/rabbitMQ.properties"/>-->
+    <!--</bean>-->
+    <context:property-placeholder location="classpath:properties/rabbitMQ.properties"/>
+
+    <!-- 1. 定义连接工厂 -->
+    <rabbit:connection-factory id="connectionFactory"
+                               host="${mq.rabbit.host}" port="${mq.rabbit.port}"
+                               virtual-host="${mq.rabbit.virtual.host}"
+                               username="${mq.rabbit.username}" password="${mq.rabbit.password}"
+                               requested-heartbeat="${mq.rabbit.heart.beat}"/>
+
+    <!-- 2. 定义管理者：所有的连接工厂都需要被 RabbitMQ 管理 -->
+    <rabbit:admin connection-factory="connectionFactory"/>
+
+    <!-- 3. 定义队列
+        durable：是否持久化
+        exclusive：是否专用通道
+     -->
+    <rabbit:queue id="smsQueue" name="smsQueue" durable="true" exclusive="false"/>
+
+    <!-- 4. 定义交换机 -->
+    <rabbit:direct-exchange id="directExchange" name="${mq.rabbit.exchange}" durable="true" auto-delete="true">
+        <rabbit:bindings>
+            <rabbit:binding queue="smsQueue" key="rentSmsKey"/>
+        </rabbit:bindings>
+    </rabbit:direct-exchange>
+
+    <!-- 5. 定义rabbit的模板：所有整合的消息系统都会有有个模板
+            queue=""        如果发送到队列，则写队列
+            exchange=""     如果发送到交换机，则写交换机
+            routing-key=""  定义路由的关键字
+     -->
+    <rabbit:template id="amqpTemplate" connection-factory="connectionFactory" exchange="${mq.rabbit.exchange}"/>
+
+    <!-- 6. 定义生产者处理类 -->
+    <bean id="smsMsgConsumer" class="com.wb.mq.rabbitMq.producer.SmsMsgProducer"/>
+
+</beans>
