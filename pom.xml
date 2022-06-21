@@ -49,7 +49,7 @@
             <!-- 驱动只有在工作的时候才会用 -->
             <groupId>mysql</groupId>
             <artifactId>mysql-connector-java</artifactId>
-            <version>5.1.35</version>
+            <version>8.0.28</version>
             <scope>runtime</scope>
         </dependency>
         <dependency>
